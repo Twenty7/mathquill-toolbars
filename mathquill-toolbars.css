@@ -1,0 +1,18 @@
+.mathquill-toolbar {
+	margin-bottom: 4px;
+}
+.mathquill-toolbar .btn {
+	height: 34px;;
+}
+.mathquill-toolbar.btn-group + .mathquill-toolbar.btn-group {
+	margin-left: 0px;
+}
+
+
+/* Override mathquill styles */
+.mathquill-editable, .mathquill-embedded-latex .mathquill-editable {
+	padding: 10px 5px 10px 5px;
+}
+.mathquill-editable .textarea, .mathquill-rendered-math .textarea {
+	left: -11px;
+}
