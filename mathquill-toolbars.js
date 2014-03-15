@@ -76,16 +76,12 @@ $.widget( "mathquill.mathquillToolbar", {
 			btn.parents('.mathquill-container').mathquillToolbar('insert', btn);
 		});
 
-		// MQ Keydown
+		// MQ Keydown / Keypress
 		this.mq_span.on( "keydown", function() {
 			$(this).parents('.mathquill-container').mathquillToolbar('setSaveTimer');
+		}).on( "keypress", function() {
+			$(this).parents('.mathquill-container').mathquillToolbar('setSaveTimer');
 		});
-
-		// // MQ Keypress
-		// $(".mathquill-display .mathquill-editable", this.element).on( "keypress", function() {
-		// 	var element = $(this);
-		// 	element.parents('.mathquill-container').mathquillToolbar('setSaveTimer');
-		// });
 	},
 
 	insert: function(btn) {
