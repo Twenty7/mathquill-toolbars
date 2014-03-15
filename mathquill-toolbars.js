@@ -1,32 +1,53 @@
-$.widget( "mathquill.mathquillToolbar", {
+$.widget( "mathquill.mathquillToolbars", {
 	mq_span: undefined,
 	mq_input: undefined,
 	record_timer: undefined,
 	saved_equations: [],
 	// Todo: Add undo and redo support
 
+	default_buttons: {
+		plus: { label: '+', latex: '+', description: 'Addition', cmd: 'cmd' },
+		minus: { label: '-', latex: '-', description: 'Subtraction', cmd: 'cmd' },
+		times: { label: '\\times', latex: '\\times', description: 'Multiplication', cmd: 'cmd' },
+		divide: { label: '\\divide', latex: '\\divide', description: 'Division', cmd: 'cmd' },
+		equal: { label: '=', latex: '=', description: 'Equal', cmd: 'cmd' },
+		lt: { label: '<', latex: '<', description: 'Less Than', cmd: 'cmd' },
+		gt: { label: '>', latex: '>', description: 'Greater Than', cmd: 'cmd' },
+		lte: { label: '\\le', latex: '\le', description: 'Less Than or Equal To', cmd: 'cmd' },
+		gte: { label: '\\ge', latex: '\\ge', description: 'Greater Than or Equal To', cmd: 'cmd' },
+		frac: { label: '\\frac {x}{y}', latex: '\\frac', description: 'Fraction', cmd: 'cmd' },
+		parens: { label: '(x)', latex: '(', description: 'Parentheses', cmd: 'cmd' },
+		brackets: { label: '[x]', latex: '[', description: 'Brackets', cmd: 'cmd' },
+		exponent: { label: '2^{1}', latex: '^{1}', description: 'Exponent', cmd: 'write' },
+		subscript: { label: '2_{1}', latex: '_{1}', description: 'Subscript', cmd: 'write' },
+		absolute: { label: '|x|', latex: '|', description: 'Absolute Value', cmd: 'cmd' },
+		pi: { label: '\\pi', latex: '\\pi', description: 'Pi', cmd: 'write' },
+		sqrt: { label: '\\sqrt x', latex: '\\sqrt', description: 'Square Root', cmd: 'cmd' },
+		sqrt2: { label: '\\sqrt[x]{y}', latex: '\\sqrt[x]{y}', description: 'Square Root Alt', cmd: 'write' },
+		imaginary: { label: 'i', latex: 'i', description: 'Imaginary Number', cmd: 'write' },
+		degrees: { label: '\\deg', latex: '\\deg', description: 'Degrees', cmd: 'write' },
+		theta: { label: '\\theta', latex: '\\theta', description: 'Theta', cmd: 'write' },
+		phi: { label: '\\phi', latex: '\\phi', description: 'Phi', cmd: 'write' },
+		sin: { label: '\\sin', latex: '\\sin', description: 'Sin', cmd: 'write' },
+		cos: { label: '\\cos', latex: '\\cos', description: 'Cos', cmd: 'write' },
+		tan: { label: '\\tan', latex: '\\tan', description: 'Tan', cmd: 'write' },
+		arcsin: { label: '\\arcsin', latex: '\\arcsin', description: 'Arc Sin', cmd: 'write' },
+		arccos: { label: '\\arccos', latex: '\\arccos', description: 'Arc Cos', cmd: 'write' },
+		arctan: { label: '\\arctan', latex: '\\arctan', description: 'Arc Tan', cmd: 'write' },
+		x: { label: 'x', latex: 'x', description: 'x', cmd: 'write' },
+		y: { label: 'y', latex: 'y', description: 'y', cmd: 'write' }
+	},
+
 	options: {
 		record_timer_delay: 1000,
 		num_undos: 5,
-		toolbars: ['operators', 'structure'],
-		operators: [
-			{ name: 'plus', label: '+', latex: '+', description: 'Addition', cmd: 'cmd' },
-			{ name: 'minus', label: '-', latex: '-', description: 'Subtraction', cmd: 'cmd' },
-			{ name: 'times', label: '\\times', latex: '\\times', description: 'Multipication', cmd: 'cmd' },
-			{ name: 'divide', label: '\\divide', latex: '\\divide', description: 'Division', cmd: 'cmd' },
-			{ name: 'equal', label: '=', latex: '=', description: 'Equal', cmd: 'cmd' },
-			{ name: 'lt', label: '<', latex: '<', description: 'Less Than', cmd: 'cmd' },
-			{ name: 'gt', label: '>', latex: '>', description: 'Greater Than', cmd: 'cmd' },
-			{ name: 'lte', label: '\\le', latex: '\le', description: 'Less Than or Equal To', cmd: 'cmd' },
-			{ name: 'gte', label: '\\ge', latex: '\\ge', description: 'Greater Than or Equal To', cmd: 'cmd' }
-		],
-		structure: [
-			{ name: 'frac', label: '\\frac {x}{y}', latex: '\\frac', description: 'Fraction', cmd: 'cmd' },
-			{ name: 'sqrt', label: '\\sqrt x', latex: '\\sqrt', description: 'Square Root', cmd: 'cmd' },
-			{ name: 'exponent', label: '2^{1}', latex: '^{1}', description: 'Exponent', cmd: 'write' },
-			{ name: 'exponent', label: '2_{1}', latex: '_{1}', description: 'Superscript', cmd: 'write' },
-			{ name: 'paren', label: '(x)', latex: '(', description: 'Parentheses', cmd: 'cmd' }
-		]
+		buttons: {},
+		toolbars: ['operators', 'structure', 'symbols', 'calculus', 'variables'],
+		operators: ['plus', 'minus', 'times', 'divide', 'equal', 'lt', 'gt', 'lte', 'gte'],
+		structure: ['frac', 'parens', 'brackets', 'exponent', 'subscript', 'absolute'],
+		symbols: ['pi', 'sqrt', 'sqrt2', 'imaginary', 'degrees', 'theta', 'phi'],
+		calculus: ['sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan'],
+		variables: ['x', 'y']
 	},
 
 	_create: function() {
@@ -51,10 +72,24 @@ $.widget( "mathquill.mathquillToolbar", {
 		if (this.options.toolbars.length != 0) {
 			for (var i = 0; i <= this.options.toolbars.length - 1; i++) {
 				var toolbar_name = this.options.toolbars[i];
+				if (this.options[toolbar_name] == undefined) {
+					console.error("Mathquill Toolbars: Toolbar '" + toolbar_name + "' not found.");
+					continue;
+				}
 				var toolbar = this.options[toolbar_name];
 				toolbar_html += '<div class="mathquill-toolbar btn-group">';
 				for (var x = 0; x <= toolbar.length - 1; x++) {
-					var btn_opt = toolbar[x];
+					var btn_name = toolbar[x];
+					var btn_opt;
+					if (this.default_buttons[btn_name] !== undefined) {
+						btn_opt = this.default_buttons[btn_name];
+					}
+					else if (this.options.buttons[btn_name] !== undefined) {
+						btn_opt = this.options.buttons[btn_name];
+					}
+					else {
+						console.error("Mathquill Toolbars: Button '" + btn_name + "' not found.");
+					}
 					toolbar_html += '<button class="btn btn-small" data-fragment="' + btn_opt.name + '" data-latex="' + btn_opt.latex + '" data-cmd="' + btn_opt.cmd + '" title="' + btn_opt.description + '"><span class="mathquill-embedded-latex">' + btn_opt.label + '</span></button>';
 				};
 				toolbar_html += '</div>';
@@ -67,20 +102,20 @@ $.widget( "mathquill.mathquillToolbar", {
 	_bindEvents: function() {
 		// Save
 		this.element.on('save', function() {
-			$(this).mathquillToolbar('save', 'foo');
+			$(this).mathquillToolbars('save', 'foo');
 		});
 
 		// Toolbar clicks
 		$(".mathquill-toolbar .btn", this.element).on( "click", function() {
 			var btn = $(this);
-			btn.parents('.mathquill-container').mathquillToolbar('insert', btn);
+			btn.parents('.mathquill-container').mathquillToolbars('insert', btn);
 		});
 
 		// MQ Keydown / Keypress
 		this.mq_span.on( "keydown", function() {
-			$(this).parents('.mathquill-container').mathquillToolbar('setSaveTimer');
+			$(this).parents('.mathquill-container').mathquillToolbars('setSaveTimer');
 		}).on( "keypress", function() {
-			$(this).parents('.mathquill-container').mathquillToolbar('setSaveTimer');
+			$(this).parents('.mathquill-container').mathquillToolbars('setSaveTimer');
 		});
 	},
 

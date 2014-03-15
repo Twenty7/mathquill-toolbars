@@ -1,17 +1,22 @@
 .mathquill-toolbar {
-	margin-bottom: 4px;
+	margin-bottom: 5px;
+	margin-left: 5px;
 }
 .mathquill-toolbar .btn {
-	height: 34px;;
+	height: 42px;
+	font-size: 14px;
+	padding: 8px 10px 30px 10px;
 }
-.mathquill-toolbar.btn-group + .mathquill-toolbar.btn-group {
-	margin-left: 0px;
+.mathquill-toolbar.btn-group {
+	margin-left: 5px;
 }
 
 
 /* Override mathquill styles */
 .mathquill-editable, .mathquill-embedded-latex .mathquill-editable {
-	padding: 10px 5px 10px 5px;
+	padding: 13px 5px 14px 5px;
+	margin-left: 5px;
+	font-size: 2em;
 }
 .mathquill-editable .textarea, .mathquill-rendered-math .textarea {
 	left: -11px;
