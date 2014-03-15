@@ -1,7 +1,8 @@
 $.widget( "mathquill.mathquillToolbar", {
+	mq_span: undefined,
+	mq_input: undefined,
 	record_timer: undefined,
 	saved_equations: [],
-
 	// Todo: Add undo and redo support
 
 	options: {
@@ -30,7 +31,16 @@ $.widget( "mathquill.mathquillToolbar", {
 
 	_create: function() {
 		// Init from hidden
-		$('.mathquill-display .mathquill-editable', this.element).text($('.mathquill-input input', this.element).val()).mathquill('editable');;
+		this.mq_span = $('.mathquill-display .mathquill-editable', this.element);
+		this.mq_input = $('.mathquill-input input', this.element);
+		var latex = this.mq_input.val();
+		if (latex.length !== 0) {
+			this.mq_span.mathquill('write', latex);
+			this.saved_equations.push(latex);
+		}
+		else {
+			this.saved_equations.push('');
+		}
 
 		this._buildToolbars();
 		this._bindEvents();
@@ -67,7 +77,7 @@ $.widget( "mathquill.mathquillToolbar", {
 		});
 
 		// MQ Keydown
-		$(".mathquill-display .mathquill-editable", this.element).on( "keydown", function() {
+		this.mq_span.on( "keydown", function() {
 			$(this).parents('.mathquill-container').mathquillToolbar('setSaveTimer');
 		});
 
@@ -91,8 +101,7 @@ $.widget( "mathquill.mathquillToolbar", {
 		if (this.saveTimer() !== undefined) return true;
 		
 		function callSave(obj) {
-			console.debug(obj, 'trigger');
-			this.element.trigger("save");
+			obj.element.trigger("save");
 		}
 		var timeout = setTimeout(callSave.bind(this, this), this.options.record_timer_delay);
 		this.saveTimer(timeout);
@@ -107,34 +116,30 @@ $.widget( "mathquill.mathquillToolbar", {
 	},
 
 	save: function() {
-		var mq_span = $('.mathquill-display .mathquill-editable', this.element);
-		var latex = mq_span.mathquill('latex');
+		var new_latex = this.mq_span.mathquill('latex');
 		var curr_len = this.saved_equations.length;
-		if (curr_len === 0 || this.saved_equations[curr_len] !== latex) {
-			curr_len = this.saved_equations.push(latex);
-			this.val(latex);
+		if (curr_len === 0 || this.saved_equations[curr_len - 1] !== new_latex) {
+			curr_len = this.saved_equations.push(new_latex);
+			this.val(new_latex);
 			if (curr_len > this.options.num_undos) {
 				this.saved_equations.shift();
 			}
 		}
-		console.debug(this.saved_equations, 'saved');
 		// Clear out Save Timer
 		this.record_timer = undefined;
 	},
 
 	val: function(value) {
+		var curr_len = this.saved_equations.length;
 		if (value === undefined) {
-			var curr_len = this.saved_equations.length;
-			if (curr_len !== 0) return this.saved_equations[curr_len];
+			if (curr_len !== 0) return this.saved_equations[curr_len - 1];
 			return null;
 		}
-		var input = $('.mathquill-input input', this.element);
-console.debug(input.val(), 'v1');
-console.debug(value, 'v2');
-console.debug(input.val() != value, 'VAL EQUAL');
-		if (input.val() != value) {
-			console.debug('VAL UPDATED')
-			input.val(value);
+
+		if (this.mq_input.val() != value) {
+			if (curr_len === 0) curr_len = this.saved_equations.push(value);
+			this.mq_input.val(value);
+			this.mq_input.trigger('change');
 		}
 	}
 
