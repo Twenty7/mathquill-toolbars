@@ -42,11 +42,11 @@ $.widget( "mathquill.mathquillToolbars", {
 		record_timer_delay: 1000,
 		num_undos: 5,
 		buttons: {},
-		toolbars: ['operators', 'structure', 'symbols', 'calculus', 'variables'],
+		toolbars: ['operators', 'structure', 'symbols', 'trig', 'variables'],
 		operators: ['plus', 'minus', 'times', 'divide', 'equal', 'lt', 'gt', 'lte', 'gte'],
 		structure: ['frac', 'parens', 'brackets', 'exponent', 'subscript', 'absolute'],
 		symbols: ['pi', 'sqrt', 'sqrt2', 'imaginary', 'degrees', 'theta', 'phi'],
-		calculus: ['sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan'],
+		trig: ['sin', 'cos', 'tan', 'arcsin', 'arccos', 'arctan'],
 		variables: ['x', 'y']
 	},
 
@@ -102,7 +102,7 @@ $.widget( "mathquill.mathquillToolbars", {
 	_bindEvents: function() {
 		// Save
 		this.element.on('save', function() {
-			$(this).mathquillToolbars('save', 'foo');
+			$(this).mathquillToolbars('save');
 		});
 
 		// Toolbar clicks
