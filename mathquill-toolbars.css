@@ -1,18 +1,57 @@
-.mathquill-toolbar {
+/* MathQuill Toolbars */
+.mathquill-toolbars {
 	margin-bottom: 5px;
 	margin-left: 5px;
 }
-.mathquill-toolbar .btn {
+.mathquill-toolbars .btn {
 	height: 42px;
 	font-size: 14px;
 	padding: 8px 10px 30px 10px;
 }
-.mathquill-toolbar.btn-group {
+.mathquill-toolbars.btn-group {
 	margin-left: 5px;
 }
 
+/* MathQuill Inline Toolbars */
+.mathquill-toolbars-inline .mathquill-toolbars .btn {
+	height: 16px;
+	font-size: 14px;
+	padding: 5px;
+}
+.mathquill-toolbars-inline .mathquill-toolbars.btn-group {
+	margin-left: 0px;
+	vertical-align: top;
+}
+.mathquill-toolbars-list {
+	list-style-type: none;
+	float: left;
+	margin: 0 0 0 5px;
+	padding: 0;
+	display: block;
+}
+.mathquill-toolbars-list > li > a {
+	display: block;
+	padding: 3px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 20px;
+	color: #333333;
+	white-space: nowrap;
+}
+.mathquill-toolbars-list > li > a:hover {
+	background-color: #0088cc;
+	cursor: pointer;
+}
+.mathquill-toolbars-list > li > a:hover span {
+	cursor: pointer;
+}
+.mathquill-toolbars-list li {
+	display: block;
+}
 
-/* Override mathquill styles */
+
+
+/* Override MathQuill styles */
 .mathquill-editable, .mathquill-embedded-latex .mathquill-editable {
 	padding: 13px 5px 14px 5px;
 	margin-left: 5px;
