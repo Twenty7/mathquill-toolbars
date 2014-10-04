@@ -61,7 +61,7 @@ $.widget( "mathquill.mathquillToolbars", {
 		this.mq_span = $('.mathquill-editable', mq_display);
 
 		// Init Mq
-		if (this.mq_span.length != 0) {
+		if (this.mq_span.length != 0 && $('.textarea', this.mq_span).length == 0) {
 			this.mq_span.mathquill('editable');
 		}
 
