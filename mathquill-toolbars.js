@@ -30,7 +30,8 @@ $.widget( "mathquill.mathquillToolbars", {
 		sqrt2: { label: '\\sqrt[x]{y}', latex: '\\sqrt[x]{y}', description: 'Square Root Alt', cmd: 'write' },
 		imaginary: { label: 'i', latex: 'i', description: 'Imaginary Number', cmd: 'write' },
 		degrees: { label: '\\deg', latex: '\\deg', description: 'Degrees', cmd: 'write' },
-		cents: { label: '\\textcent', latex: '\\textcent', description: 'Cents', cmd: 'write' }, // TODO: Figure out a font that works with cents.
+		cent: { label: '¢', latex: '¢', description: 'Cent', cmd: 'write' },
+		dollar: { label: '$', latex: '$', description: 'Dollar', cmd: 'write' },
 		infinity: { label: '\\infty', latex: '\\infty', description: 'Infinity', cmd: 'write' },
 		angle: { label: '\\angle', latex: '\\angle', description: 'Angle', cmd: 'write' },
 		theta: { label: '\\theta', latex: '\\theta', description: 'Theta', cmd: 'write' },
