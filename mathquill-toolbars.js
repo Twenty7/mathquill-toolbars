@@ -11,6 +11,7 @@ $.widget( "mathquill.mathquillToolbars", {
 		times: { label: '\\times', latex: '\\times', description: 'Multiplication', cmd: 'cmd' },
 		divide: { label: '\\divide', latex: '\\divide', description: 'Division', cmd: 'cmd' },
 		equal: { label: '=', latex: '=', description: 'Equal', cmd: 'cmd' },
+		approx: { label: '\\approx', latex: '\\approx', description: 'Approx', cmd: 'cmd' },
 		pm: { label: '\\pm', latex: '\\pm', description: 'Plus-Minus', cmd: 'cmd' },
 		lt: { label: '<', latex: '<', description: 'Less Than', cmd: 'cmd' },
 		gt: { label: '>', latex: '>', description: 'Greater Than', cmd: 'cmd' },
@@ -21,13 +22,20 @@ $.widget( "mathquill.mathquillToolbars", {
 		brackets: { label: '[x]', latex: '[', description: 'Brackets', cmd: 'cmd' },
 		exponent: { label: 'x^{2}', latex: '^{2}', description: 'Exponent', cmd: 'write' },
 		subscript: { label: 'x_{2}', latex: '_{2}', description: 'Subscript', cmd: 'write' },
+		superscript: { label: 'x^{super}', latex: '^{super}', description: 'Exponent', cmd: 'write' },
+		overline: { label: '\\overline{over}', latex: '\\overline{over}', description: 'Overline', cmd: 'write' },
 		absolute: { label: '|x|', latex: '|', description: 'Absolute Value', cmd: 'cmd' },
 		pi: { label: '\\pi', latex: '\\pi', description: 'Pi', cmd: 'write' },
 		sqrt: { label: '\\sqrt x', latex: '\\sqrt', description: 'Square Root', cmd: 'cmd' },
 		sqrt2: { label: '\\sqrt[x]{y}', latex: '\\sqrt[x]{y}', description: 'Square Root Alt', cmd: 'write' },
 		imaginary: { label: 'i', latex: 'i', description: 'Imaginary Number', cmd: 'write' },
 		degrees: { label: '\\deg', latex: '\\deg', description: 'Degrees', cmd: 'write' },
+		cent: { label: '¢', latex: '¢', description: 'Cent', cmd: 'write' },
+		dollar: { label: '$', latex: '$', description: 'Dollar', cmd: 'write' },
+		infinity: { label: '\\infty', latex: '\\infty', description: 'Infinity', cmd: 'write' },
+		angle: { label: '\\angle', latex: '\\angle', description: 'Angle', cmd: 'write' },
 		theta: { label: '\\theta', latex: '\\theta', description: 'Theta', cmd: 'write' },
+		triangle: { label: '\\bigtriangleup', latex: '\\bigtriangleup', description: 'Triangle', cmd: 'write' },
 		phi: { label: '\\phi', latex: '\\phi', description: 'Phi', cmd: 'write' },
 		sin: { label: '\\sin', latex: '\\sin', description: 'Sin', cmd: 'write' },
 		cos: { label: '\\cos', latex: '\\cos', description: 'Cos', cmd: 'write' },
@@ -245,4 +253,3 @@ $.widget( "mathquill.mathquillToolbars", {
 	}
 
 });
-
